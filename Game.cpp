@@ -38,6 +38,9 @@ Game::Game()
         }
     }
 
+    m_playerXHealth = 3;
+    m_playerOHealth = 3;
+
     m_totalTime = 0.f;
     m_isXturn = true;
     m_mouseHold = false;
@@ -67,19 +70,31 @@ void Game::Update(sf::RenderWindow& window, float& deltaTime)
                 m_isXturn = false;
                 m_playerTurnSignO.setFillColor(sf::Color(255, 255, 255, 255));
                 m_playerTurnSignX.setFillColor(sf::Color(255, 255, 255, 64));
-                
-                // std::cout << "X clicked\n";
             }
             else
             {
                 m_isXturn = true;
                 m_playerTurnSignX.setFillColor(sf::Color(255, 255, 255, 255));
                 m_playerTurnSignO.setFillColor(sf::Color(255, 255, 255, 64));
-
-                // std::cout << "O clicked\n";
             }
 
-            std::cout << m_CheckWinner() << std::endl;
+            switch (m_CheckWinner())
+            {
+            case ' ':
+                break;
+            case 'X':
+                std::cout << "Player X wins this round!" << std::endl;
+                m_playerOHealth--;
+                m_ResetBoard();
+                break;
+            case 'O':
+                std::cout << "Player O wins this round!" << std::endl;
+                m_playerXHealth--;
+                m_ResetBoard();
+                break;
+            }
+
+            m_CheckTie();
         }
     }
     else
@@ -177,4 +192,26 @@ char Game::m_CheckWinner()
     }
 
     return ' ';
+}
+
+bool Game::m_CheckTie()
+{
+    for (int i = 0; i < m_boxes.size(); i++)
+    {
+        if (m_boxes[i].getTextureRect() == m_emptybox.getTextureRect())
+            return false;
+    }
+    m_ResetBoard();
+    std::cout << m_isXturn;
+    return true;
+}
+
+void Game::m_ResetBoard()
+{
+    m_isXturn = true;
+    
+    for (int i = 0; i < m_boxes.size(); i++)
+    {
+        m_boxes[i].setTextureRect({229, 96, 17, 17});
+    }
 }

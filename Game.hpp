@@ -17,6 +17,8 @@ private:
 
     bool m_CheckBoxAvailability();
     char m_CheckWinner();
+    bool m_CheckTie();
+    void m_ResetBoard();
 
 private:
     sf::RenderWindow* m_window;
@@ -25,6 +27,9 @@ private:
     sf::RectangleShape m_board;
     sf::RectangleShape m_playerTurnSignX;
     sf::RectangleShape m_playerTurnSignO;
+
+    int m_playerXHealth;
+    int m_playerOHealth;
 
     float m_totalTime;
 

@@ -8,3 +8,6 @@ To run tha game:
 Things to add:
 1. Reset the game after a win.
 2. Add health points for each player.
+
+Found bugs:
+1. When the board reset the turn display does not reset properly
