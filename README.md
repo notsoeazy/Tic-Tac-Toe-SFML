@@ -6,8 +6,11 @@ To run tha game:
 . Run the game using the command "mingw32-make"
 
 Things to add:
-1. Reset the game after a win.
-2. Add health points for each player.
+1. Add health points for each player. (add function to decrease the hp)
 
 Found bugs:
-1. When the board reset the turn display does not reset properly
+
+Credits:
+    Assets are from:
+    https://m1k3-dev.itch.io/tic-tac-toe-asset-pack
+    https://buddy-games.itch.io/pixelated-hearts-spritesheet

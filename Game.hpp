@@ -28,9 +28,14 @@ private:
     sf::RectangleShape m_playerTurnSignX;
     sf::RectangleShape m_playerTurnSignO;
 
-    int m_playerXHealth;
-    int m_playerOHealth;
-
+    sf::Texture m_textureHeart;
+    sf::Sprite m_heart;
+    struct PlayerHealth
+    {
+        std::vector<sf::Sprite> playerHpDisplay;
+        int playerHp; 
+    } m_playerX, m_playerO;
+    
     float m_totalTime;
 
     std::vector<sf::RectangleShape> m_boxes;

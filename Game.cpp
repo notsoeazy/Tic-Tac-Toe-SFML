@@ -2,9 +2,27 @@
 
 Game::Game()
 {
-    m_texture.loadFromFile("res/Tic-Tac-Toe assets.png");
+//this initializes the hearts
+    m_textureHeart.loadFromFile("res/Hearts.png");
+    m_heart.scale({3.f, 3.f});
+    m_heart.setTexture(m_textureHeart);
+    m_heart.setTextureRect({0, 0, 15, 16});
+
+    for (int i = 0; i < 3; i++)
+    {
+        m_heart.setPosition({15.f + (i * 45), 120.f});
+        m_playerX.playerHpDisplay.push_back(m_heart);
+        
+        m_heart.setPosition({370.f - (i * 45), 120.f});
+        m_playerO.playerHpDisplay.push_back(m_heart);
+    }
+
+    m_playerX.playerHp = 3;
+    m_playerO.playerHp = 3;
 
 //INITIALIZE THE BOARD
+    m_texture.loadFromFile("res/Tic-Tac-Toe assets.png");
+
     m_board.setSize({441.f, 784.f});
     m_board.setTexture(&m_texture);
     m_board.setTextureRect({125, 3, 64, 115});
@@ -38,9 +56,6 @@ Game::Game()
         }
     }
 
-    m_playerXHealth = 3;
-    m_playerOHealth = 3;
-
     m_totalTime = 0.f;
     m_isXturn = true;
     m_mouseHold = false;
@@ -51,6 +66,7 @@ void Game::Update(sf::RenderWindow& window, float& deltaTime)
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
         m_UpdateMousePosition(window);
+        // std::cout << m_mousePos.x << '\t' << m_mousePos.y << std::endl;
         if (m_mouseHold == false && m_CheckBoxAvailability())
         {
             m_mouseHold = true;
@@ -84,12 +100,12 @@ void Game::Update(sf::RenderWindow& window, float& deltaTime)
                 break;
             case 'X':
                 std::cout << "Player X wins this round!" << std::endl;
-                m_playerOHealth--;
+                m_playerO.playerHp--;
                 m_ResetBoard();
                 break;
             case 'O':
                 std::cout << "Player O wins this round!" << std::endl;
-                m_playerXHealth--;
+                m_playerX.playerHp--;
                 m_ResetBoard();
                 break;
             }
@@ -112,7 +128,12 @@ void Game::Draw(sf::RenderTarget& window)
     for (int i = 0; i < 9; i++)
     {
         window.draw(m_boxes[i]);
-    }    
+    } 
+    for (int i = 0; i < 3; i++)   
+    {
+        window.draw(m_playerX.playerHpDisplay[i]);
+        window.draw(m_playerO.playerHpDisplay[i]);
+    }
 };
 
 bool Game::m_CheckBoxAvailability()
@@ -202,16 +223,18 @@ bool Game::m_CheckTie()
             return false;
     }
     m_ResetBoard();
-    std::cout << m_isXturn;
     return true;
 }
 
 void Game::m_ResetBoard()
-{
-    m_isXturn = true;
-    
+{    
     for (int i = 0; i < m_boxes.size(); i++)
     {
         m_boxes[i].setTextureRect({229, 96, 17, 17});
     }
+
+    //set sign
+    m_isXturn = true;
+    m_playerTurnSignX.setFillColor(sf::Color(255, 255, 255, 255));
+    m_playerTurnSignO.setFillColor(sf::Color(255, 255, 255, 64));
 }
